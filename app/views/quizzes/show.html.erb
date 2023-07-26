@@ -1,0 +1,27 @@
+<!-- app/views/quizzes/show.html.erb -->
+<h1><%= @quiz.title %></h1>
+<p><%= @quiz.description %></p>
+
+<h2>Questions:</h2>
+<% @quiz.questions.each do |question| %>
+  <p><strong>Content:</strong> <%= question.content %></p>
+  <p><strong>Question Type:</strong> <%= question.question_type %></p>
+
+  <% if question.question_type == "Multiple Choice" %>
+    <h3>Choices:</h3>
+    <ul>
+      <% question.choices.each do |choice| %>
+        <li><%= choice.content %> (Correct: <%= choice.correct? ? 'Yes' : 'No' %>)</li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if question.image %>
+    <p><strong>Image URL:</strong> <%= question.image.image_url %></p>
+  <% end %>
+<% end %>
+
+<%= link_to 'Add New Question', new_quiz_question_path(@quiz) %>
+<%= link_to 'Edit Quiz', edit_quiz_path(@quiz) %>
+<%= link_to 'Back to Quizzes', quizzes_path %>
+

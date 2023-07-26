@@ -1,0 +1,52 @@
+<% question_types = ["Multiple Choice", "Free Response"] %> 
+
+<%= form_with(model: question) do |form| %>
+  <% if question.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+        <% question.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :content, style: "display: block" %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div>
+    <%= form.label :question_type, style: "display: block" %>
+    <%= form.select :question_type, options_for_select(question_types) %>
+  </div>
+
+  <div>
+    <%= form.label :quiz_id, style: "display: block" %>
+    <%= form.text_field :quiz_id %>
+  </div>
+
+  <!-- Add choice fields for multiple-choice questions -->
+  <%= form.fields_for :choices do |choice_form| %>
+    <div class="form-group">
+      <%= choice_form.label :content, "Choice" %>
+      <%= choice_form.text_field :content, class: "form-control" %>
+      <%= choice_form.check_box :correct %>
+      <%= choice_form.label :correct, "Correct" %>
+    </div>
+  <% end %>
+
+  <!-- Add image field for attaching images -->
+  <%= form.fields_for :image do |image_form| %>
+    <div class="form-group">
+      <%= image_form.label :image_url, "Image URL" %>
+      <%= image_form.text_field :image_url, class: "form-control" %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
