@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   get 'submissions/create'
-  get 'submissions/show'
-  resources :quizzes do 
-    resources :questions
-  end   
+  get 'submissions/show'  
 
   devise_for :users
 
@@ -11,7 +8,13 @@ Rails.application.routes.draw do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
 
+  resources :quizzes do 
+    resources :questions
+    resources :submissions, only: [:show, :create], as: 'submissions'
+  end 
+
   get 'home/index'
+  get 'home/dashboard'
   get 'home/course1'
   get 'home/course2'
   get 'home/course3'
