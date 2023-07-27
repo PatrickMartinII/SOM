@@ -1,16 +1,7 @@
 <div id="<%= dom_id quiz %>">
-  <h2><%= link_to quiz.title, quiz %></h2>
-  <p><%= quiz.description %></p>
-
-  <% if quiz.questions.any? %>
-    <h3>Questions:</h3>
-    <ul>
-      <% quiz.questions.each do |question| %>
-        <li><%= link_to question.content, quiz_question_path(quiz, question) %></li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p>No questions available for this quiz.</p>
-  <% end %>
+  <p>
+    <strong>Title:</strong>
+    <%= quiz.title %>
+  </p>
 </div>
 

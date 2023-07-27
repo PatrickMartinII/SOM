@@ -1,10 +1,9 @@
 class QuestionsController < ApplicationController
-  before_action :set_quiz
   before_action :set_question, only: %i[show edit update destroy]
 
   # GET /questions or /questions.json
   def index
-    @questions = @quiz.questions
+    @questions = Question.all
   end
 
   # GET /questions/1 or /questions/1.json
@@ -13,9 +12,7 @@ class QuestionsController < ApplicationController
 
   # GET /questions/new
   def new
-    @question = @quiz.questions.build
-    @question.choices.build # For multiple-choice questions
-    @question.build_image # For attaching an image
+    @question = Question.new
   end
 
   # GET /questions/1/edit
@@ -24,7 +21,7 @@ class QuestionsController < ApplicationController
 
   # POST /questions or /questions.json
   def create
-    @question = @quiz.questions.build(question_params)
+    @question = Question.new(question_params)
 
     respond_to do |format|
       if @question.save
@@ -41,7 +38,7 @@ class QuestionsController < ApplicationController
   def update
     respond_to do |format|
       if @question.update(question_params)
-        format.html { redirect_to quiz_question_url(@quiz, @question), notice: "Question was successfully updated." }
+        format.html { redirect_to quiz_question_url(@question), notice: "Question was successfully updated." }
         format.json { render :show, status: :ok, location: @question }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -55,24 +52,19 @@ class QuestionsController < ApplicationController
     @question.destroy
 
     respond_to do |format|
-      format.html { redirect_to quiz_questions_url(@quiz), notice: "Question was successfully destroyed." }
+      format.html { redirect_to quiz_questions_url, notice: "Question was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-
-  def set_quiz
-    @quiz = Quiz.find(params[:quiz_id])
-  end
-
   def set_question
     @question = Question.find(params[:id])
   end
 
   def question_params
-    params.require(:question).permit(:content, :question_type, :quiz_id, choices_attributes: [:id, :content, :correct, :_destroy], image_attributes: [:id, :image_url])
+    params.require(:question).permit(:quiz_id, :content, :answer1, :answer2, :answer3, :answer4, :correct_answer)
   end
   
 end

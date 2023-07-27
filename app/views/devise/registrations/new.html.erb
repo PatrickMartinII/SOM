@@ -1,5 +1,6 @@
 <br/>
 <div class="container">
+  <div class="col-lg-6 offset-lg-3">
   <div class="card">
     <div class="card-header">
       Sign Up
@@ -41,28 +42,26 @@
         <br/>
 
         <!-- Add the role selection field here -->
-        <%= f.select :role, User::ROLES, prompt: "Choose a role", id: "user_role_select" %>
+        <div class="form-group mb-3">
+          <%= f.select :role, User::ROLES.map{|r| [r.capitalize, r]}, { prompt: "Choose a role" }, { id: "user-role-select", class: "form-select" } %>
+        </div>
+
 
         <!-- Add the code field here -->
-        <div id="teacher_code_input" style="display:none;">
-          <%= f.text_field :teacher_code, placeholder: "Enter the code to continue as a teacher" %>
+        <div id="teacher-code-input" class="form-group mb-3" data-target="teacher_code.teacherCodeInput">
+          <%= f.text_field :teacher_code, placeholder: "Enter the teacher code", class: "form-control" %>
         </div>
+
       
         <div class="actions">
           <%= f.submit "Sign up", class: "btn btn-primary" %>
         </div>
       <% end %>
-
-      <script>
-        alert("I loaded!");
-        document.addEventListener('turbolinks:load', () => {
-        })
-        alert("I finished!");
-      </script>
     </div>
     
     <div class="card-footer text-body-secondary">
       <%= render "devise/shared/links" %>          
     </div>                           
   </div>
+</div>
 </div>
